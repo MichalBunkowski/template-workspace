@@ -12,7 +12,7 @@ applications:
           commands:
             - yarn build
       artifacts:
-        baseDirectory: packages/web/.next
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
