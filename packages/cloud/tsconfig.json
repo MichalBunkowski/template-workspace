@@ -6,6 +6,7 @@
       "../../node_modules/@types"
     ]
   },
+  "include": ["**/*.ts"],
   "exclude": [
     "node_modules",
     "cdk.out"
