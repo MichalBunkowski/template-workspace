@@ -5,6 +5,7 @@ applications:
       phases:
         preBuild:
           commands:
+            - nvm install --lts
             - npx lerna bootstrap
         build:
           commands:
