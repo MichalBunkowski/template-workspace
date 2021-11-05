@@ -1,0 +1,18 @@
+version: 1
+applications:
+  - frontend:
+      appRoot: packages/web
+      phases:
+        preBuild:
+          commands:
+            - yarn bootstrap
+        build:
+          commands:
+            - lerna run build --scope=@orochizu/web
+      artifacts:
+        baseDirectory: packages/web/.next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*

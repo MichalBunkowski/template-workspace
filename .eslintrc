@@ -16,6 +16,8 @@
   "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
   "rules": {
     "prefer-const": "error",
+    "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
