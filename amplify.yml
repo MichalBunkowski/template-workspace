@@ -9,7 +9,7 @@ applications:
             - npx lerna bootstrap
         build:
           commands:
-            - npx lerna run build --scope=@orochizu/web
+            - npx lerna run build --scope=@orochizu/web --steam
       artifacts:
         baseDirectory: .next
         files:
