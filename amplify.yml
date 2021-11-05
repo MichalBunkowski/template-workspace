@@ -7,7 +7,7 @@ applications:
           commands:
             - nvm install --lts
             - cd packages/web
-            - lerna bootstrap
+            - npx lerna bootstrap
         build:
           commands:
             - yarn build
