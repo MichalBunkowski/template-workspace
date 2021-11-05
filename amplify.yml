@@ -5,10 +5,10 @@ applications:
       phases:
         preBuild:
           commands:
-            - yarn bootstrap
+            - npx lerna bootstrap
         build:
           commands:
-            - lerna run build --scope=@orochizu/web
+            - npx lerna run build --scope=@orochizu/web
       artifacts:
         baseDirectory: packages/web/.next
         files:
