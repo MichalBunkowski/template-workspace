@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable"],
+    "jsx": "preserve"
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
