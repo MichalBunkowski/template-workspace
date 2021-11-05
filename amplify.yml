@@ -6,11 +6,10 @@ applications:
         preBuild:
           commands:
             - nvm install --lts
-            - cd packages/web
             - npx lerna bootstrap
         build:
           commands:
-            - yarn build
+            - npx lerna run build --scope=@orochizu/web
       artifacts:
         baseDirectory: .next
         files:
