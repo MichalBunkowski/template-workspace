@@ -1,7 +1,7 @@
 version: 1
 applications:
-  - frontend:
-      appRoot: packages/web
+  - appRoot: packages/web
+    frontend:
       phases:
         preBuild:
           commands:
