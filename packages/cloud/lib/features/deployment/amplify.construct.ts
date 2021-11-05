@@ -40,6 +40,10 @@ export class AmplifyConstruct extends cdk.Construct {
       '[{"pkg":"next-version","type":"internal","version":"latest"}]'
     );
 
+    this.app.addEnvironment('AMPLIFY_MONOREPO_APP_ROOT', 'packages/web');
+
+    this.app.addEnvironment('AMPLIFY_DIFF_DEPLOY', 'false');
+
     this.app.addEnvironment(
       'NEXT_CLIENT_REGION',
       props.env?.region ?? 'eu-west-1'
