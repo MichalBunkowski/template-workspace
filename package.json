@@ -1,0 +1,18 @@
+{
+  "name": "template-workspace",
+  "version": "1.0.0",
+  "repository": "https://github.com/MichalBunkowski/template-workspace",
+  "author": "Michal Bunkowski (michalbunkowski@gmail.com)",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "volta": {
+    "node": "16.13.0",
+    "yarn": "1.22.17"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
+}
