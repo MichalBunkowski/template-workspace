@@ -11,7 +11,7 @@ applications:
           commands:
             - npx lerna run build --scope=@orochizu/web
       artifacts:
-        baseDirectory: .next
+        baseDirectory: packages/web/.next
         files:
           - '**/*'
       cache:
