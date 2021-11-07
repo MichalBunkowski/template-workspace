@@ -30,38 +30,20 @@ export class AmplifyConstruct extends cdk.Construct {
           oauthToken: githubToken,
         }),
         autoBranchDeletion: true,
+        environmentVariables: {
+          _LIVE_UPDATES:
+            '[{"pkg":"next-version","type":"internal","version":"latest"}]',
+          AMPLIFY_MONOREPO_APP_ROOT: 'packages/web',
+          AMPLIFY_DIFF_DEPLOY: 'false',
+          NEXT_CLIENT_REGION: props.env?.region ?? 'eu-west-1',
+          NEXT_CLIENT_IDENTITY_POOL_ID: cognito.identityPool.ref,
+          NEXT_CLIENT_USER_POOL_ID: cognito.userPool.userPoolId,
+          NEXT_CLIENT_USER_POOL_CLIENT_ID:
+            cognito.userPoolClient.userPoolClientId,
+        },
       }
     );
 
-    this.app.addBranch('main');
-
-    this.app.addEnvironment(
-      '_LIVE_UPDATES',
-      '[{"pkg":"next-version","type":"internal","version":"latest"}]'
-    );
-
-    this.app.addEnvironment('AMPLIFY_MONOREPO_APP_ROOT', 'packages/web');
-
-    this.app.addEnvironment('AMPLIFY_DIFF_DEPLOY', 'false');
-
-    this.app.addEnvironment(
-      'NEXT_CLIENT_REGION',
-      props.env?.region ?? 'eu-west-1'
-    );
-
-    this.app.addEnvironment(
-      'NEXT_CLIENT_IDENTITY_POOL_ID',
-      cognito.identityPool.ref
-    );
-
-    this.app.addEnvironment(
-      'NEXT_CLIENT_USER_POOL_ID',
-      cognito.userPool.userPoolId
-    );
-
-    this.app.addEnvironment(
-      'NEXT_CLIENT_USER_POOL_CLIENT_ID',
-      cognito.userPoolClient.userPoolClientId
-    );
+    this.app.addBranch('main', { autoBuild: true });
   }
 }

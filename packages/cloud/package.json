@@ -10,7 +10,8 @@
     "cdk": "cdk",
     "lint": "scripty",
     "test": "scripty",
-    "destroy": "scripty"
+    "destroy": "scripty",
+    "deploy": "scripty"
   },
   "devDependencies": {
     "@types/node": "10.17.27",
