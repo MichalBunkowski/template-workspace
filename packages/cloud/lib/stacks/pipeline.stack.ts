@@ -5,6 +5,7 @@ import {
   ShellStep,
 } from '@aws-cdk/pipelines';
 
+import { AppStackStage } from '../stages/app-stack.stage';
 import { CommonProps } from '../types/interfaces/common-props';
 import generateResourceName from '../utils/generate-resource-name.utils';
 
@@ -37,5 +38,7 @@ export class PipelineStack extends Stack {
         }),
       }
     );
+
+    this.pipeline.addStage(new AppStackStage(this, 'PreProd', props));
   }
 }
