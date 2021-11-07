@@ -1,24 +1,32 @@
-import * as cognito from '@aws-cdk/aws-cognito';
-import * as iam from '@aws-cdk/aws-iam';
-import * as cdk from '@aws-cdk/core';
+import {
+  CfnIdentityPool,
+  CfnIdentityPoolRoleAttachment,
+} from '@aws-cdk/aws-cognito';
+import {
+  Effect,
+  FederatedPrincipal,
+  PolicyStatement,
+  Role,
+} from '@aws-cdk/aws-iam';
+import { Construct } from '@aws-cdk/core';
 
 import { CommonProps } from '../../types/interfaces/common-props';
 import generateResourceName from '../../utils/generate-resource-name.utils';
 
 interface CognitoRoleProps extends CommonProps {
-  identityPool: cognito.CfnIdentityPool;
+  identityPool: CfnIdentityPool;
 }
 
-export class CognitoRoleConstruct extends cdk.Construct {
-  private readonly role: iam.Role;
+export class CognitoRoleConstruct extends Construct {
+  private readonly role: Role;
 
-  constructor(scope: cdk.Construct, id: string, props: CognitoRoleProps) {
+  constructor(scope: Construct, id: string, props: CognitoRoleProps) {
     super(scope, id);
 
     const { identityPool } = props;
 
-    this.role = new iam.Role(this, generateResourceName('AuthRole', props), {
-      assumedBy: new iam.FederatedPrincipal(
+    this.role = new Role(this, generateResourceName('AuthRole', props), {
+      assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
           StringEquals: {
@@ -33,8 +41,8 @@ export class CognitoRoleConstruct extends cdk.Construct {
     });
 
     this.role.addToPolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
+      new PolicyStatement({
+        effect: Effect.ALLOW,
         actions: [
           'mobileanalytics:PutEvents',
           'cognito-sync:*',
@@ -44,7 +52,7 @@ export class CognitoRoleConstruct extends cdk.Construct {
       })
     );
 
-    new cognito.CfnIdentityPoolRoleAttachment(
+    new CfnIdentityPoolRoleAttachment(
       this,
       generateResourceName('AuthIdentityPoolAttachment', props),
       {

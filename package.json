@@ -8,8 +8,9 @@
   "scripts": {
     "lint": "scripty",
     "test": "scripty",
-    "deploy": "scripty",
-    "destroy": "scripty",
+    "deploy": "npx lerna run deploy --stream --scope=@orochizu/cloud -- --",
+    "destroy": "npx lerna run destroy --stream --scope=@orochizu/cloud -- --",
+    "synth": "npx lerna run synth --stream --scope=@orochizu/cloud -- --",
     "bootstrap": "npx lerna bootstrap",
     "prepare": "husky install"
   },

@@ -1,5 +1,11 @@
-import * as cognito from '@aws-cdk/aws-cognito';
-import * as cdk from '@aws-cdk/core';
+import {
+  AccountRecovery,
+  CfnIdentityPool,
+  UserPool,
+  UserPoolClient,
+  UserPoolDomain,
+} from '@aws-cdk/aws-cognito';
+import { CfnOutput, Construct, Duration } from '@aws-cdk/core';
 
 import { CommonProps } from '../../types/interfaces/common-props';
 import generateResourceName from '../../utils/generate-resource-name.utils';
@@ -7,21 +13,21 @@ import { CognitoRoleConstruct } from './congito-role.construct';
 
 type CognitoConstructProps = CommonProps;
 
-export class CognitoConstruct extends cdk.Construct {
-  public readonly userPool: cognito.UserPool;
-  public readonly userPoolClient: cognito.UserPoolClient;
-  public readonly userPoolDomain: cognito.UserPoolDomain;
-  public readonly identityPool: cognito.CfnIdentityPool;
+export class CognitoConstruct extends Construct {
+  public readonly userPool: UserPool;
+  public readonly userPoolClient: UserPoolClient;
+  public readonly userPoolDomain: UserPoolDomain;
+  public readonly identityPool: CfnIdentityPool;
   public readonly authRole: CognitoRoleConstruct;
 
-  constructor(scope: cdk.Construct, id: string, props: CognitoConstructProps) {
+  constructor(scope: Construct, id: string, props: CognitoConstructProps) {
     super(scope, id);
 
-    this.userPool = new cognito.UserPool(
+    this.userPool = new UserPool(
       this,
       generateResourceName('AuthUserPool', props),
       {
-        accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
+        accountRecovery: AccountRecovery.EMAIL_ONLY,
         selfSignUpEnabled: true,
         autoVerify: { email: true },
         signInAliases: { email: true, username: true },
@@ -31,7 +37,7 @@ export class CognitoConstruct extends cdk.Construct {
           requireSymbols: true,
           requireLowercase: true,
           requireUppercase: true,
-          tempPasswordValidity: cdk.Duration.days(1),
+          tempPasswordValidity: Duration.days(1),
         },
         standardAttributes: {
           email: {
@@ -42,13 +48,13 @@ export class CognitoConstruct extends cdk.Construct {
       }
     );
 
-    this.userPoolClient = new cognito.UserPoolClient(
+    this.userPoolClient = new UserPoolClient(
       this,
       generateResourceName('AuthUserPoolClient', props),
       { userPool: this.userPool, generateSecret: false }
     );
 
-    this.identityPool = new cognito.CfnIdentityPool(
+    this.identityPool = new CfnIdentityPool(
       this,
       generateResourceName('AuthIdentityPool', props),
       {
@@ -62,7 +68,7 @@ export class CognitoConstruct extends cdk.Construct {
       }
     );
 
-    this.userPoolDomain = new cognito.UserPoolDomain(
+    this.userPoolDomain = new UserPoolDomain(
       this,
       generateResourceName('UserPoolDomain', props),
       {
@@ -82,19 +88,19 @@ export class CognitoConstruct extends cdk.Construct {
       }
     );
 
-    new cdk.CfnOutput(this, generateResourceName('UserPoolId', props), {
+    new CfnOutput(this, generateResourceName('UserPoolId', props), {
       value: this.userPool.userPoolId,
     });
 
-    new cdk.CfnOutput(this, generateResourceName('UserPoolClientId', props), {
+    new CfnOutput(this, generateResourceName('UserPoolClientId', props), {
       value: this.userPoolClient.userPoolClientId,
     });
 
-    new cdk.CfnOutput(this, generateResourceName('IdentityPoolId', props), {
+    new CfnOutput(this, generateResourceName('IdentityPoolId', props), {
       value: this.identityPool.ref,
     });
 
-    new cdk.CfnOutput(
+    new CfnOutput(
       this,
       generateResourceName('CognitoUserPoolDomainExport', props),
       {

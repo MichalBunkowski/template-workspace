@@ -1,15 +1,16 @@
-import * as iam from '@aws-cdk/aws-iam';
-import * as cdk from '@aws-cdk/core';
+import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { Construct, SecretValue, Stack } from '@aws-cdk/core';
 
 import { CognitoConstruct } from '../features/auth/cognito.construct';
 import { AmplifyConstruct } from '../features/deployment/amplify.construct';
+import { PipelineConstruct } from '../features/deployment/pipeline.construct';
 import { CommonProps } from '../types/interfaces/common-props';
 import generateResourceName from '../utils/generate-resource-name.utils';
 
 type AppStackProps = CommonProps;
 
-export class AppStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: AppStackProps) {
+export class AppStack extends Stack {
+  constructor(scope: Construct, id: string, props: AppStackProps) {
     super(scope, id, props);
 
     // Authentication
@@ -30,15 +31,13 @@ export class AppStack extends cdk.Stack {
      *  amplifyServiceRole
      *  Purpose: Allows amplify app to create and deploy backend resources
      * */
-    const amplifyServiceRole = new iam.Role(
+    const amplifyServiceRole = new Role(
       this,
       generateResourceName('AmplifyBackendDeployment', props),
       {
-        assumedBy: new iam.ServicePrincipal('amplify.amazonaws.com'),
+        assumedBy: new ServicePrincipal('amplify.amazonaws.com'),
         managedPolicies: [
-          iam.ManagedPolicy.fromAwsManagedPolicyName(
-            'AdministratorAccess-Amplify'
-          ),
+          ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify'),
         ],
       }
     );
@@ -47,7 +46,16 @@ export class AppStack extends cdk.Stack {
      *  githubSecret
      *  Purpose: Access to Github repository
      * */
-    const githubToken = cdk.SecretValue.secretsManager('github_token');
+    const githubToken = SecretValue.secretsManager('github_token');
+
+    /**
+     *  PipelineConstruct
+     *  Purpose: Deployment of CDK App
+     * */
+    new PipelineConstruct(this, generateResourceName('Pipeline', props), {
+      githubToken,
+      ...props,
+    });
 
     /**
      *  AmplifyConstruct
