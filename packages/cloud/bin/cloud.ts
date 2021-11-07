@@ -3,7 +3,6 @@
 import { App } from '@aws-cdk/core';
 
 import { PipelineStack } from '../lib/stacks/pipeline.stack';
-import { EnvironmentName } from '../lib/types/enums/environment-name';
 
 import 'source-map-support/register';
 

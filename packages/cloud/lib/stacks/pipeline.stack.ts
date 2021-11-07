@@ -5,6 +5,7 @@ import {
   ShellStep,
 } from '@aws-cdk/pipelines';
 
+import { AppStackStage } from '../stages/app-stack.stage';
 import { CommonProps } from '../types/interfaces/common-props';
 
 type PipelineProps = CommonProps;
@@ -13,7 +14,7 @@ export class PipelineStack extends Stack {
   public readonly pipeline: CodePipeline;
 
   constructor(scope: Construct, id: string, props?: PipelineProps) {
-    super(scope, id);
+    super(scope, id, props);
 
     /**
      *  githubSecret
@@ -32,5 +33,7 @@ export class PipelineStack extends Stack {
         commands: ['yarn bootstrap', 'yarn synth'],
       }),
     });
+
+    this.pipeline.addStage(new AppStackStage(this, 'PreProd', props));
   }
 }

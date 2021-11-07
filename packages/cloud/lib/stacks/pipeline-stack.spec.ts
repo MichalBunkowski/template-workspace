@@ -1,6 +1,5 @@
 import * as cdk from '@aws-cdk/core';
 
-import { EnvironmentName } from '../types/enums/environment-name';
 import { PipelineStack } from './pipeline.stack';
 
 describe('PipelineStack', () => {
