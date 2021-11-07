@@ -1,0 +1,278 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppStack should match snapshot 1`] = `
+Object {
+  "deveAmplifyBackendDeploymentE7FE934E": Object {
+    "Properties": Object {
+      "AssumeRolePolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": "sts:AssumeRole",
+            "Effect": "Allow",
+            "Principal": Object {
+              "Service": "amplify.amazonaws.com",
+            },
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+      "ManagedPolicyArns": Array [
+        Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":iam::aws:policy/AdministratorAccess-Amplify",
+            ],
+          ],
+        },
+      ],
+    },
+    "Type": "AWS::IAM::Role",
+  },
+  "deveAmplifydeveAmplifyApp9D3CB723": Object {
+    "Properties": Object {
+      "BasicAuthConfig": Object {
+        "EnableBasicAuth": false,
+      },
+      "EnableBranchAutoDeletion": true,
+      "EnvironmentVariables": Array [
+        Object {
+          "Name": "_LIVE_UPDATES",
+          "Value": "[{\\"pkg\\":\\"next-version\\",\\"type\\":\\"internal\\",\\"version\\":\\"latest\\"}]",
+        },
+        Object {
+          "Name": "AMPLIFY_MONOREPO_APP_ROOT",
+          "Value": "packages/web",
+        },
+        Object {
+          "Name": "AMPLIFY_DIFF_DEPLOY",
+          "Value": "false",
+        },
+        Object {
+          "Name": "NEXT_CLIENT_REGION",
+          "Value": "eu-west-1",
+        },
+        Object {
+          "Name": "NEXT_CLIENT_IDENTITY_POOL_ID",
+          "Value": Object {
+            "Ref": "deveAuthdeveAuthIdentityPool401EFC64",
+          },
+        },
+        Object {
+          "Name": "NEXT_CLIENT_USER_POOL_ID",
+          "Value": Object {
+            "Ref": "deveAuthdeveAuthUserPool3AB3A3DF",
+          },
+        },
+        Object {
+          "Name": "NEXT_CLIENT_USER_POOL_CLIENT_ID",
+          "Value": Object {
+            "Ref": "deveAuthdeveAuthUserPoolClient1B655E9C",
+          },
+        },
+      ],
+      "IAMServiceRole": Object {
+        "Fn::GetAtt": Array [
+          "deveAmplifyBackendDeploymentE7FE934E",
+          "Arn",
+        ],
+      },
+      "Name": "deve-AmplifyApp",
+      "OauthToken": "{{resolve:secretsmanager:github_token:SecretString:::}}",
+      "Repository": "https://github.com/MichalBunkowski/template-workspace",
+    },
+    "Type": "AWS::Amplify::App",
+  },
+  "deveAmplifydeveAmplifyAppmain02DBB1C9": Object {
+    "Properties": Object {
+      "AppId": Object {
+        "Fn::GetAtt": Array [
+          "deveAmplifydeveAmplifyApp9D3CB723",
+          "AppId",
+        ],
+      },
+      "BranchName": "main",
+      "EnableAutoBuild": true,
+      "EnablePullRequestPreview": true,
+    },
+    "Type": "AWS::Amplify::Branch",
+  },
+  "deveAuthdeveAuthIdentityPool401EFC64": Object {
+    "Properties": Object {
+      "AllowUnauthenticatedIdentities": false,
+      "CognitoIdentityProviders": Array [
+        Object {
+          "ClientId": Object {
+            "Ref": "deveAuthdeveAuthUserPoolClient1B655E9C",
+          },
+          "ProviderName": Object {
+            "Fn::GetAtt": Array [
+              "deveAuthdeveAuthUserPool3AB3A3DF",
+              "ProviderName",
+            ],
+          },
+        },
+      ],
+    },
+    "Type": "AWS::Cognito::IdentityPool",
+  },
+  "deveAuthdeveAuthRoleConstructdeveAuthIdentityPoolAttachment14DFE206": Object {
+    "Properties": Object {
+      "IdentityPoolId": Object {
+        "Ref": "deveAuthdeveAuthIdentityPool401EFC64",
+      },
+      "Roles": Object {
+        "authenticated": Object {
+          "Fn::GetAtt": Array [
+            "deveAuthdeveAuthRoleConstructdeveAuthRole201224FB",
+            "Arn",
+          ],
+        },
+      },
+    },
+    "Type": "AWS::Cognito::IdentityPoolRoleAttachment",
+  },
+  "deveAuthdeveAuthRoleConstructdeveAuthRole201224FB": Object {
+    "Properties": Object {
+      "AssumeRolePolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": Object {
+              "ForAnyValue:StringLike": Object {
+                "cognito-identity.amazonaws.com:amr": "authenticated",
+              },
+              "StringEquals": Object {
+                "cognito-identity.amazonaws.com:aud": Object {
+                  "Ref": "deveAuthdeveAuthIdentityPool401EFC64",
+                },
+              },
+            },
+            "Effect": "Allow",
+            "Principal": Object {
+              "Federated": "cognito-identity.amazonaws.com",
+            },
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+    },
+    "Type": "AWS::IAM::Role",
+  },
+  "deveAuthdeveAuthRoleConstructdeveAuthRoleDefaultPolicyF6CE2D60": Object {
+    "Properties": Object {
+      "PolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": Array [
+              "mobileanalytics:PutEvents",
+              "cognito-sync:*",
+              "cognito-identity:*",
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+      "PolicyName": "deveAuthdeveAuthRoleConstructdeveAuthRoleDefaultPolicyF6CE2D60",
+      "Roles": Array [
+        Object {
+          "Ref": "deveAuthdeveAuthRoleConstructdeveAuthRole201224FB",
+        },
+      ],
+    },
+    "Type": "AWS::IAM::Policy",
+  },
+  "deveAuthdeveAuthUserPool3AB3A3DF": Object {
+    "DeletionPolicy": "Retain",
+    "Properties": Object {
+      "AccountRecoverySetting": Object {
+        "RecoveryMechanisms": Array [
+          Object {
+            "Name": "verified_email",
+            "Priority": 1,
+          },
+        ],
+      },
+      "AdminCreateUserConfig": Object {
+        "AllowAdminCreateUserOnly": false,
+      },
+      "AliasAttributes": Array [
+        "email",
+      ],
+      "AutoVerifiedAttributes": Array [
+        "email",
+      ],
+      "EmailVerificationMessage": "The verification code to your new account is {####}",
+      "EmailVerificationSubject": "Verify your new account",
+      "Policies": Object {
+        "PasswordPolicy": Object {
+          "MinimumLength": 8,
+          "RequireLowercase": true,
+          "RequireNumbers": true,
+          "RequireSymbols": true,
+          "RequireUppercase": true,
+          "TemporaryPasswordValidityDays": 1,
+        },
+      },
+      "Schema": Array [
+        Object {
+          "Mutable": false,
+          "Name": "email",
+          "Required": true,
+        },
+      ],
+      "SmsVerificationMessage": "The verification code to your new account is {####}",
+      "VerificationMessageTemplate": Object {
+        "DefaultEmailOption": "CONFIRM_WITH_CODE",
+        "EmailMessage": "The verification code to your new account is {####}",
+        "EmailSubject": "Verify your new account",
+        "SmsMessage": "The verification code to your new account is {####}",
+      },
+    },
+    "Type": "AWS::Cognito::UserPool",
+    "UpdateReplacePolicy": "Retain",
+  },
+  "deveAuthdeveAuthUserPoolClient1B655E9C": Object {
+    "Properties": Object {
+      "AllowedOAuthFlows": Array [
+        "implicit",
+        "code",
+      ],
+      "AllowedOAuthFlowsUserPoolClient": true,
+      "AllowedOAuthScopes": Array [
+        "profile",
+        "phone",
+        "email",
+        "openid",
+        "aws.cognito.signin.user.admin",
+      ],
+      "CallbackURLs": Array [
+        "https://example.com",
+      ],
+      "GenerateSecret": false,
+      "SupportedIdentityProviders": Array [
+        "COGNITO",
+      ],
+      "UserPoolId": Object {
+        "Ref": "deveAuthdeveAuthUserPool3AB3A3DF",
+      },
+    },
+    "Type": "AWS::Cognito::UserPoolClient",
+  },
+  "deveAuthdeveUserPoolDomain137A5849": Object {
+    "Properties": Object {
+      "Domain": "deve-home-assistance",
+      "UserPoolId": Object {
+        "Ref": "deveAuthdeveAuthUserPool3AB3A3DF",
+      },
+    },
+    "Type": "AWS::Cognito::UserPoolDomain",
+  },
+}
+`;
