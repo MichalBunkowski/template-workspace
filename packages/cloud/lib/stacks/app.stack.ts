@@ -3,7 +3,6 @@ import { Construct, SecretValue, Stack } from '@aws-cdk/core';
 
 import { CognitoConstruct } from '../features/auth/cognito.construct';
 import { AmplifyConstruct } from '../features/deployment/amplify.construct';
-import { PipelineConstruct } from '../features/deployment/pipeline.construct';
 import { CommonProps } from '../types/interfaces/common-props';
 import generateResourceName from '../utils/generate-resource-name.utils';
 
@@ -47,15 +46,6 @@ export class AppStack extends Stack {
      *  Purpose: Access to Github repository
      * */
     const githubToken = SecretValue.secretsManager('github_token');
-
-    /**
-     *  PipelineConstruct
-     *  Purpose: Deployment of CDK App
-     * */
-    new PipelineConstruct(this, generateResourceName('Pipeline', props), {
-      githubToken,
-      ...props,
-    });
 
     /**
      *  AmplifyConstruct

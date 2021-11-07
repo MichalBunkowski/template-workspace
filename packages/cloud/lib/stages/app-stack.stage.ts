@@ -1,6 +1,6 @@
 import { CfnOutput, Construct, Stage, StageProps } from '@aws-cdk/core';
 
-import { AppStack } from '../stacks/app-stack';
+import { AppStack } from '../stacks/app.stack';
 import { CommonProps } from '../types/interfaces/common-props';
 
 type AppStackStageProps = CommonProps & StageProps;

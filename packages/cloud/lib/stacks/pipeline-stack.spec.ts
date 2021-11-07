@@ -1,13 +1,13 @@
 import * as cdk from '@aws-cdk/core';
 
 import { EnvironmentName } from '../types/enums/environment-name';
-import { AppStack } from './app.stack';
+import { PipelineStack } from './pipeline.stack';
 
-describe('AppStack', () => {
+describe('PipelineStack', () => {
   it('should match snapshot', () => {
     const app = new cdk.App();
     // WHEN
-    const stack = new AppStack(app, 'MyTestStack', {
+    const stack = new PipelineStack(app, 'MyTestStack', {
       envName: EnvironmentName.Develop,
     });
     // THEN

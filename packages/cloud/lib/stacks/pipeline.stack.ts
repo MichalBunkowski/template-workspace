@@ -1,25 +1,27 @@
-import { Construct, SecretValue } from '@aws-cdk/core';
+import { Construct, SecretValue, Stack } from '@aws-cdk/core';
 import {
   CodePipeline,
   CodePipelineSource,
   ShellStep,
 } from '@aws-cdk/pipelines';
 
-import { AppStackStage } from '../../stages/app-stack.stage';
-import { CommonProps } from '../../types/interfaces/common-props';
-import generateResourceName from '../../utils/generate-resource-name.utils';
+import { AppStackStage } from '../stages/app-stack.stage';
+import { CommonProps } from '../types/interfaces/common-props';
+import generateResourceName from '../utils/generate-resource-name.utils';
 
-interface PipelineProps extends CommonProps {
-  githubToken: SecretValue;
-}
+type PipelineProps = CommonProps;
 
-export class PipelineConstruct extends Construct {
+export class PipelineStack extends Stack {
   public readonly pipeline: CodePipeline;
 
   constructor(scope: Construct, id: string, props: PipelineProps) {
     super(scope, id);
 
-    const { githubToken } = props;
+    /**
+     *  githubSecret
+     *  Purpose: Access to Github repository
+     * */
+    const githubToken = SecretValue.secretsManager('github_token');
 
     this.pipeline = new CodePipeline(
       this,
