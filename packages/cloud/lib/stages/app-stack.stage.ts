@@ -14,6 +14,12 @@ export class AppStackStage extends Stage {
   constructor(scope: Construct, id: string, props: AppStackStageProps) {
     super(scope, id, props);
 
-    new AppStack(this, 'WebService', props);
+    new AppStack(this, 'WebService', {
+      ...props,
+      env: {
+        account: '327838578054',
+        region: 'eu-west-1',
+      },
+    });
   }
 }
