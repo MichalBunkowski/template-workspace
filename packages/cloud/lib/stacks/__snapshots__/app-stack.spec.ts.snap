@@ -2,7 +2,75 @@
 
 exports[`AppStack should match snapshot 1`] = `
 Object {
-  "deveAmplifyBackendDeploymentE7FE934E": Object {
+  "AmplifyAmplifyApp0346D4EC": Object {
+    "Properties": Object {
+      "BasicAuthConfig": Object {
+        "EnableBasicAuth": false,
+      },
+      "EnableBranchAutoDeletion": true,
+      "EnvironmentVariables": Array [
+        Object {
+          "Name": "_LIVE_UPDATES",
+          "Value": "[{\\"pkg\\":\\"next-version\\",\\"type\\":\\"internal\\",\\"version\\":\\"latest\\"}]",
+        },
+        Object {
+          "Name": "AMPLIFY_MONOREPO_APP_ROOT",
+          "Value": "packages/web",
+        },
+        Object {
+          "Name": "AMPLIFY_DIFF_DEPLOY",
+          "Value": "false",
+        },
+        Object {
+          "Name": "NEXT_CLIENT_REGION",
+          "Value": "eu-west-1",
+        },
+        Object {
+          "Name": "NEXT_CLIENT_IDENTITY_POOL_ID",
+          "Value": Object {
+            "Ref": "AuthAuthIdentityPool71ACCEC7",
+          },
+        },
+        Object {
+          "Name": "NEXT_CLIENT_USER_POOL_ID",
+          "Value": Object {
+            "Ref": "AuthAuthUserPool2E5A325E",
+          },
+        },
+        Object {
+          "Name": "NEXT_CLIENT_USER_POOL_CLIENT_ID",
+          "Value": Object {
+            "Ref": "AuthAuthUserPoolClient493875FB",
+          },
+        },
+      ],
+      "IAMServiceRole": Object {
+        "Fn::GetAtt": Array [
+          "AmplifyBackendDeployment84142950",
+          "Arn",
+        ],
+      },
+      "Name": "AmplifyApp",
+      "OauthToken": "{{resolve:secretsmanager:github_token:SecretString:::}}",
+      "Repository": "https://github.com/MichalBunkowski/template-workspace",
+    },
+    "Type": "AWS::Amplify::App",
+  },
+  "AmplifyAmplifyAppmain87A1DA5F": Object {
+    "Properties": Object {
+      "AppId": Object {
+        "Fn::GetAtt": Array [
+          "AmplifyAmplifyApp0346D4EC",
+          "AppId",
+        ],
+      },
+      "BranchName": "main",
+      "EnableAutoBuild": false,
+      "EnablePullRequestPreview": true,
+    },
+    "Type": "AWS::Amplify::Branch",
+  },
+  "AmplifyBackendDeployment84142950": Object {
     "Properties": Object {
       "AssumeRolePolicyDocument": Object {
         "Statement": Array [
@@ -33,85 +101,17 @@ Object {
     },
     "Type": "AWS::IAM::Role",
   },
-  "deveAmplifydeveAmplifyApp9D3CB723": Object {
-    "Properties": Object {
-      "BasicAuthConfig": Object {
-        "EnableBasicAuth": false,
-      },
-      "EnableBranchAutoDeletion": true,
-      "EnvironmentVariables": Array [
-        Object {
-          "Name": "_LIVE_UPDATES",
-          "Value": "[{\\"pkg\\":\\"next-version\\",\\"type\\":\\"internal\\",\\"version\\":\\"latest\\"}]",
-        },
-        Object {
-          "Name": "AMPLIFY_MONOREPO_APP_ROOT",
-          "Value": "packages/web",
-        },
-        Object {
-          "Name": "AMPLIFY_DIFF_DEPLOY",
-          "Value": "false",
-        },
-        Object {
-          "Name": "NEXT_CLIENT_REGION",
-          "Value": "eu-west-1",
-        },
-        Object {
-          "Name": "NEXT_CLIENT_IDENTITY_POOL_ID",
-          "Value": Object {
-            "Ref": "deveAuthdeveAuthIdentityPool401EFC64",
-          },
-        },
-        Object {
-          "Name": "NEXT_CLIENT_USER_POOL_ID",
-          "Value": Object {
-            "Ref": "deveAuthdeveAuthUserPool3AB3A3DF",
-          },
-        },
-        Object {
-          "Name": "NEXT_CLIENT_USER_POOL_CLIENT_ID",
-          "Value": Object {
-            "Ref": "deveAuthdeveAuthUserPoolClient1B655E9C",
-          },
-        },
-      ],
-      "IAMServiceRole": Object {
-        "Fn::GetAtt": Array [
-          "deveAmplifyBackendDeploymentE7FE934E",
-          "Arn",
-        ],
-      },
-      "Name": "deve-AmplifyApp",
-      "OauthToken": "{{resolve:secretsmanager:github_token:SecretString:::}}",
-      "Repository": "https://github.com/MichalBunkowski/template-workspace",
-    },
-    "Type": "AWS::Amplify::App",
-  },
-  "deveAmplifydeveAmplifyAppmain02DBB1C9": Object {
-    "Properties": Object {
-      "AppId": Object {
-        "Fn::GetAtt": Array [
-          "deveAmplifydeveAmplifyApp9D3CB723",
-          "AppId",
-        ],
-      },
-      "BranchName": "main",
-      "EnableAutoBuild": false,
-      "EnablePullRequestPreview": true,
-    },
-    "Type": "AWS::Amplify::Branch",
-  },
-  "deveAuthdeveAuthIdentityPool401EFC64": Object {
+  "AuthAuthIdentityPool71ACCEC7": Object {
     "Properties": Object {
       "AllowUnauthenticatedIdentities": false,
       "CognitoIdentityProviders": Array [
         Object {
           "ClientId": Object {
-            "Ref": "deveAuthdeveAuthUserPoolClient1B655E9C",
+            "Ref": "AuthAuthUserPoolClient493875FB",
           },
           "ProviderName": Object {
             "Fn::GetAtt": Array [
-              "deveAuthdeveAuthUserPool3AB3A3DF",
+              "AuthAuthUserPool2E5A325E",
               "ProviderName",
             ],
           },
@@ -120,15 +120,15 @@ Object {
     },
     "Type": "AWS::Cognito::IdentityPool",
   },
-  "deveAuthdeveAuthRoleConstructdeveAuthIdentityPoolAttachment14DFE206": Object {
+  "AuthAuthRoleConstructAuthIdentityPoolAttachment7C8D5F89": Object {
     "Properties": Object {
       "IdentityPoolId": Object {
-        "Ref": "deveAuthdeveAuthIdentityPool401EFC64",
+        "Ref": "AuthAuthIdentityPool71ACCEC7",
       },
       "Roles": Object {
         "authenticated": Object {
           "Fn::GetAtt": Array [
-            "deveAuthdeveAuthRoleConstructdeveAuthRole201224FB",
+            "AuthAuthRoleConstructAuthRoleFB3DB2BB",
             "Arn",
           ],
         },
@@ -136,34 +136,7 @@ Object {
     },
     "Type": "AWS::Cognito::IdentityPoolRoleAttachment",
   },
-  "deveAuthdeveAuthRoleConstructdeveAuthRole201224FB": Object {
-    "Properties": Object {
-      "AssumeRolePolicyDocument": Object {
-        "Statement": Array [
-          Object {
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": Object {
-              "ForAnyValue:StringLike": Object {
-                "cognito-identity.amazonaws.com:amr": "authenticated",
-              },
-              "StringEquals": Object {
-                "cognito-identity.amazonaws.com:aud": Object {
-                  "Ref": "deveAuthdeveAuthIdentityPool401EFC64",
-                },
-              },
-            },
-            "Effect": "Allow",
-            "Principal": Object {
-              "Federated": "cognito-identity.amazonaws.com",
-            },
-          },
-        ],
-        "Version": "2012-10-17",
-      },
-    },
-    "Type": "AWS::IAM::Role",
-  },
-  "deveAuthdeveAuthRoleConstructdeveAuthRoleDefaultPolicyF6CE2D60": Object {
+  "AuthAuthRoleConstructAuthRoleDefaultPolicy3F517683": Object {
     "Properties": Object {
       "PolicyDocument": Object {
         "Statement": Array [
@@ -179,16 +152,43 @@ Object {
         ],
         "Version": "2012-10-17",
       },
-      "PolicyName": "deveAuthdeveAuthRoleConstructdeveAuthRoleDefaultPolicyF6CE2D60",
+      "PolicyName": "AuthAuthRoleConstructAuthRoleDefaultPolicy3F517683",
       "Roles": Array [
         Object {
-          "Ref": "deveAuthdeveAuthRoleConstructdeveAuthRole201224FB",
+          "Ref": "AuthAuthRoleConstructAuthRoleFB3DB2BB",
         },
       ],
     },
     "Type": "AWS::IAM::Policy",
   },
-  "deveAuthdeveAuthUserPool3AB3A3DF": Object {
+  "AuthAuthRoleConstructAuthRoleFB3DB2BB": Object {
+    "Properties": Object {
+      "AssumeRolePolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": Object {
+              "ForAnyValue:StringLike": Object {
+                "cognito-identity.amazonaws.com:amr": "authenticated",
+              },
+              "StringEquals": Object {
+                "cognito-identity.amazonaws.com:aud": Object {
+                  "Ref": "AuthAuthIdentityPool71ACCEC7",
+                },
+              },
+            },
+            "Effect": "Allow",
+            "Principal": Object {
+              "Federated": "cognito-identity.amazonaws.com",
+            },
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+    },
+    "Type": "AWS::IAM::Role",
+  },
+  "AuthAuthUserPool2E5A325E": Object {
     "DeletionPolicy": "Retain",
     "Properties": Object {
       "AccountRecoverySetting": Object {
@@ -238,7 +238,7 @@ Object {
     "Type": "AWS::Cognito::UserPool",
     "UpdateReplacePolicy": "Retain",
   },
-  "deveAuthdeveAuthUserPoolClient1B655E9C": Object {
+  "AuthAuthUserPoolClient493875FB": Object {
     "Properties": Object {
       "AllowedOAuthFlows": Array [
         "implicit",
@@ -260,16 +260,16 @@ Object {
         "COGNITO",
       ],
       "UserPoolId": Object {
-        "Ref": "deveAuthdeveAuthUserPool3AB3A3DF",
+        "Ref": "AuthAuthUserPool2E5A325E",
       },
     },
     "Type": "AWS::Cognito::UserPoolClient",
   },
-  "deveAuthdeveUserPoolDomain137A5849": Object {
+  "AuthUserPoolDomain97947401": Object {
     "Properties": Object {
-      "Domain": "deve-home-assistance",
+      "Domain": "home-assistance",
       "UserPoolId": Object {
-        "Ref": "deveAuthdeveAuthUserPool3AB3A3DF",
+        "Ref": "AuthAuthUserPool2E5A325E",
       },
     },
     "Type": "AWS::Cognito::UserPoolDomain",
