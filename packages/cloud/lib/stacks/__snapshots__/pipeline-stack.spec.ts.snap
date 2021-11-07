@@ -134,7 +134,7 @@ Object {
                 "ChangeSetName": "PipelineChange",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
-                    "PipelinePreProdPrepareRole1603ABD3",
+                    "PipelinePreProdAppStackPrepareRoleA985B6E1",
                     "Arn",
                   ],
                 },
@@ -146,10 +146,10 @@ Object {
                   "Name": "Synth_Output",
                 },
               ],
-              "Name": "Prepare",
+              "Name": "AppStack.Prepare",
               "RoleArn": Object {
                 "Fn::GetAtt": Array [
-                  "PipelinePreProdPrepareCodePipelineActionRole514E9351",
+                  "PipelinePreProdAppStackPrepareCodePipelineActionRole35F462AF",
                   "Arn",
                 ],
               },
@@ -167,14 +167,40 @@ Object {
                 "ChangeSetName": "PipelineChange",
                 "StackName": "PreProd-AppStack",
               },
-              "Name": "Deploy",
+              "Name": "AppStack.Deploy",
               "RoleArn": Object {
                 "Fn::GetAtt": Array [
-                  "PipelinePreProdDeployCodePipelineActionRole75F74DD5",
+                  "PipelinePreProdAppStackDeployCodePipelineActionRole07690152",
                   "Arn",
                 ],
               },
               "RunOrder": 2,
+            },
+            Object {
+              "ActionTypeId": Object {
+                "Category": "Build",
+                "Owner": "AWS",
+                "Provider": "CodeBuild",
+                "Version": "1",
+              },
+              "Configuration": Object {
+                "ProjectName": Object {
+                  "Ref": "PipelinePreProdTriggerAmplifyMainBDCB75DA",
+                },
+              },
+              "InputArtifacts": Array [
+                Object {
+                  "Name": "MichalBunkowski_template_workspace_Source",
+                },
+              ],
+              "Name": "TriggerAmplifyMain",
+              "RoleArn": Object {
+                "Fn::GetAtt": Array [
+                  "PipelinePreProdTriggerAmplifyMainCodePipelineActionRoleEFB14A38",
+                  "Arn",
+                ],
+              },
+              "RunOrder": 3,
             },
           ],
           "Name": "PreProd",
@@ -464,7 +490,7 @@ Object {
     },
     "Type": "AWS::IAM::Policy",
   },
-  "PipelinePreProdDeployCodePipelineActionRole75F74DD5": Object {
+  "PipelinePreProdAppStackDeployCodePipelineActionRole07690152": Object {
     "Properties": Object {
       "AssumeRolePolicyDocument": Object {
         "Statement": Array [
@@ -496,7 +522,7 @@ Object {
     },
     "Type": "AWS::IAM::Role",
   },
-  "PipelinePreProdDeployCodePipelineActionRoleDefaultPolicyFF397D9A": Object {
+  "PipelinePreProdAppStackDeployCodePipelineActionRoleDefaultPolicy62211452": Object {
     "Properties": Object {
       "PolicyDocument": Object {
         "Statement": Array [
@@ -536,16 +562,16 @@ Object {
         ],
         "Version": "2012-10-17",
       },
-      "PolicyName": "PipelinePreProdDeployCodePipelineActionRoleDefaultPolicyFF397D9A",
+      "PolicyName": "PipelinePreProdAppStackDeployCodePipelineActionRoleDefaultPolicy62211452",
       "Roles": Array [
         Object {
-          "Ref": "PipelinePreProdDeployCodePipelineActionRole75F74DD5",
+          "Ref": "PipelinePreProdAppStackDeployCodePipelineActionRole07690152",
         },
       ],
     },
     "Type": "AWS::IAM::Policy",
   },
-  "PipelinePreProdPrepareCodePipelineActionRole514E9351": Object {
+  "PipelinePreProdAppStackPrepareCodePipelineActionRole35F462AF": Object {
     "Properties": Object {
       "AssumeRolePolicyDocument": Object {
         "Statement": Array [
@@ -577,7 +603,7 @@ Object {
     },
     "Type": "AWS::IAM::Role",
   },
-  "PipelinePreProdPrepareCodePipelineActionRoleDefaultPolicyE94FE1EB": Object {
+  "PipelinePreProdAppStackPrepareCodePipelineActionRoleDefaultPolicy3525D838": Object {
     "Properties": Object {
       "PolicyDocument": Object {
         "Statement": Array [
@@ -586,7 +612,7 @@ Object {
             "Effect": "Allow",
             "Resource": Object {
               "Fn::GetAtt": Array [
-                "PipelinePreProdPrepareRole1603ABD3",
+                "PipelinePreProdAppStackPrepareRoleA985B6E1",
                 "Arn",
               ],
             },
@@ -658,16 +684,16 @@ Object {
         ],
         "Version": "2012-10-17",
       },
-      "PolicyName": "PipelinePreProdPrepareCodePipelineActionRoleDefaultPolicyE94FE1EB",
+      "PolicyName": "PipelinePreProdAppStackPrepareCodePipelineActionRoleDefaultPolicy3525D838",
       "Roles": Array [
         Object {
-          "Ref": "PipelinePreProdPrepareCodePipelineActionRole514E9351",
+          "Ref": "PipelinePreProdAppStackPrepareCodePipelineActionRole35F462AF",
         },
       ],
     },
     "Type": "AWS::IAM::Policy",
   },
-  "PipelinePreProdPrepareRole1603ABD3": Object {
+  "PipelinePreProdAppStackPrepareRoleA985B6E1": Object {
     "Properties": Object {
       "AssumeRolePolicyDocument": Object {
         "Statement": Array [
@@ -684,7 +710,7 @@ Object {
     },
     "Type": "AWS::IAM::Role",
   },
-  "PipelinePreProdPrepareRoleDefaultPolicyF136FB19": Object {
+  "PipelinePreProdAppStackPrepareRoleDefaultPolicy07D15558": Object {
     "Properties": Object {
       "PolicyDocument": Object {
         "Statement": Array [
@@ -726,14 +752,265 @@ Object {
         ],
         "Version": "2012-10-17",
       },
-      "PolicyName": "PipelinePreProdPrepareRoleDefaultPolicyF136FB19",
+      "PolicyName": "PipelinePreProdAppStackPrepareRoleDefaultPolicy07D15558",
       "Roles": Array [
         Object {
-          "Ref": "PipelinePreProdPrepareRole1603ABD3",
+          "Ref": "PipelinePreProdAppStackPrepareRoleA985B6E1",
         },
       ],
     },
     "Type": "AWS::IAM::Policy",
+  },
+  "PipelinePreProdTriggerAmplifyMainBDCB75DA": Object {
+    "Properties": Object {
+      "Artifacts": Object {
+        "Type": "CODEPIPELINE",
+      },
+      "EncryptionKey": "alias/aws/s3",
+      "Environment": Object {
+        "ComputeType": "BUILD_GENERAL1_SMALL",
+        "Image": "aws/codebuild/standard:5.0",
+        "ImagePullCredentialsType": "CODEBUILD",
+        "PrivilegedMode": false,
+        "Type": "LINUX_CONTAINER",
+      },
+      "ServiceRole": Object {
+        "Fn::GetAtt": Array [
+          "PipelinePreProdTriggerAmplifyMainRoleEDC8340B",
+          "Arn",
+        ],
+      },
+      "Source": Object {
+        "BuildSpec": "{
+  \\"version\\": \\"0.2\\",
+  \\"phases\\": {
+    \\"build\\": {
+      \\"commands\\": [
+        \\"curl -X POST -d {} \\\\\\"{{resolve:secretsmanager:amplify_trigger_main:SecretString:::}}\\\\\\" -H \\\\\\"Content-Type:application/json\\\\\\"\\"
+      ]
+    }
+  }
+}",
+        "Type": "CODEPIPELINE",
+      },
+    },
+    "Type": "AWS::CodeBuild::Project",
+  },
+  "PipelinePreProdTriggerAmplifyMainCodePipelineActionRoleDefaultPolicyBD367FC7": Object {
+    "Properties": Object {
+      "PolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": Array [
+              "codebuild:BatchGetBuilds",
+              "codebuild:StartBuild",
+              "codebuild:StopBuild",
+            ],
+            "Effect": "Allow",
+            "Resource": Object {
+              "Fn::GetAtt": Array [
+                "PipelinePreProdTriggerAmplifyMainBDCB75DA",
+                "Arn",
+              ],
+            },
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+      "PolicyName": "PipelinePreProdTriggerAmplifyMainCodePipelineActionRoleDefaultPolicyBD367FC7",
+      "Roles": Array [
+        Object {
+          "Ref": "PipelinePreProdTriggerAmplifyMainCodePipelineActionRoleEFB14A38",
+        },
+      ],
+    },
+    "Type": "AWS::IAM::Policy",
+  },
+  "PipelinePreProdTriggerAmplifyMainCodePipelineActionRoleEFB14A38": Object {
+    "Properties": Object {
+      "AssumeRolePolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": "sts:AssumeRole",
+            "Effect": "Allow",
+            "Principal": Object {
+              "AWS": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":iam::",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":root",
+                  ],
+                ],
+              },
+            },
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+    },
+    "Type": "AWS::IAM::Role",
+  },
+  "PipelinePreProdTriggerAmplifyMainRoleDefaultPolicy98280585": Object {
+    "Properties": Object {
+      "PolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": Array [
+              "logs:CreateLogGroup",
+              "logs:CreateLogStream",
+              "logs:PutLogEvents",
+            ],
+            "Effect": "Allow",
+            "Resource": Array [
+              Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/codebuild/",
+                    Object {
+                      "Ref": "PipelinePreProdTriggerAmplifyMainBDCB75DA",
+                    },
+                  ],
+                ],
+              },
+              Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/codebuild/",
+                    Object {
+                      "Ref": "PipelinePreProdTriggerAmplifyMainBDCB75DA",
+                    },
+                    ":*",
+                  ],
+                ],
+              },
+            ],
+          },
+          Object {
+            "Action": Array [
+              "codebuild:CreateReportGroup",
+              "codebuild:CreateReport",
+              "codebuild:UpdateReport",
+              "codebuild:BatchPutTestCases",
+              "codebuild:BatchPutCodeCoverages",
+            ],
+            "Effect": "Allow",
+            "Resource": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "arn:",
+                  Object {
+                    "Ref": "AWS::Partition",
+                  },
+                  ":codebuild:",
+                  Object {
+                    "Ref": "AWS::Region",
+                  },
+                  ":",
+                  Object {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ":report-group/",
+                  Object {
+                    "Ref": "PipelinePreProdTriggerAmplifyMainBDCB75DA",
+                  },
+                  "-*",
+                ],
+              ],
+            },
+          },
+          Object {
+            "Action": Array [
+              "s3:GetObject*",
+              "s3:GetBucket*",
+              "s3:List*",
+            ],
+            "Effect": "Allow",
+            "Resource": Array [
+              Object {
+                "Fn::GetAtt": Array [
+                  "PipelineArtifactsBucketAEA9A052",
+                  "Arn",
+                ],
+              },
+              Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "PipelineArtifactsBucketAEA9A052",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            ],
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+      "PolicyName": "PipelinePreProdTriggerAmplifyMainRoleDefaultPolicy98280585",
+      "Roles": Array [
+        Object {
+          "Ref": "PipelinePreProdTriggerAmplifyMainRoleEDC8340B",
+        },
+      ],
+    },
+    "Type": "AWS::IAM::Policy",
+  },
+  "PipelinePreProdTriggerAmplifyMainRoleEDC8340B": Object {
+    "Properties": Object {
+      "AssumeRolePolicyDocument": Object {
+        "Statement": Array [
+          Object {
+            "Action": "sts:AssumeRole",
+            "Effect": "Allow",
+            "Principal": Object {
+              "Service": "codebuild.amazonaws.com",
+            },
+          },
+        ],
+        "Version": "2012-10-17",
+      },
+    },
+    "Type": "AWS::IAM::Role",
   },
   "PipelineRoleB27FAA37": Object {
     "Properties": Object {
@@ -814,7 +1091,7 @@ Object {
             "Effect": "Allow",
             "Resource": Object {
               "Fn::GetAtt": Array [
-                "PipelinePreProdPrepareCodePipelineActionRole514E9351",
+                "PipelinePreProdAppStackPrepareCodePipelineActionRole35F462AF",
                 "Arn",
               ],
             },
@@ -824,7 +1101,17 @@ Object {
             "Effect": "Allow",
             "Resource": Object {
               "Fn::GetAtt": Array [
-                "PipelinePreProdDeployCodePipelineActionRole75F74DD5",
+                "PipelinePreProdAppStackDeployCodePipelineActionRole07690152",
+                "Arn",
+              ],
+            },
+          },
+          Object {
+            "Action": "sts:AssumeRole",
+            "Effect": "Allow",
+            "Resource": Object {
+              "Fn::GetAtt": Array [
+                "PipelinePreProdTriggerAmplifyMainCodePipelineActionRoleEFB14A38",
                 "Arn",
               ],
             },

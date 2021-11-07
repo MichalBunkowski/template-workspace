@@ -22,19 +22,37 @@ export class PipelineStack extends Stack {
      * */
     const githubToken = SecretValue.secretsManager('github_token');
 
+    /**
+     *  amplifyTriggerMain
+     *  Purpose: Trigger amplify build
+     * */
+    const amplifyTriggerMain = SecretValue.secretsManager(
+      'amplify_trigger_main'
+    );
+
+    const githubRepository = CodePipelineSource.gitHub(
+      'MichalBunkowski/template-workspace',
+      'main',
+      { authentication: githubToken }
+    );
+
     this.pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'CdkAppPipeline',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.gitHub(
-          'MichalBunkowski/template-workspace',
-          'main',
-          { authentication: githubToken }
-        ),
+        input: githubRepository,
         commands: ['yarn bootstrap', 'yarn synth'],
         primaryOutputDirectory: 'packages/cloud/cdk.out',
       }),
     });
 
-    this.pipeline.addStage(new AppStackStage(this, 'PreProd', props));
+    this.pipeline.addStage(new AppStackStage(this, 'PreProd', props), {
+      post: [
+        new ShellStep('TriggerAmplifyMain', {
+          commands: [
+            `curl -X POST -d {} "${amplifyTriggerMain.toString()}" -H "Content-Type:application/json"`,
+          ],
+        }),
+      ],
+    });
   }
 }
