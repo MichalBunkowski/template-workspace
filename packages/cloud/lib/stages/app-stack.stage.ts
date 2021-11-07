@@ -11,6 +11,6 @@ export class AppStackStage extends Stage {
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props);
 
-    this.stack = new AppStack(this, 'AppStack');
+    this.stack = new AppStack(this, 'AppStack', props);
   }
 }

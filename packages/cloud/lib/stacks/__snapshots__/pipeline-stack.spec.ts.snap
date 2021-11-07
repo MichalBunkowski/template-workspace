@@ -60,7 +60,7 @@ Object {
                 "Version": "1",
               },
               "Configuration": Object {
-                "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"1440afabb71688c1de381f3235afb52aa989668ddbf6e5a25abf2320f9c6cb13\\"}]",
+                "EnvironmentVariables": "[{\\"name\\":\\"_PROJECT_CONFIG_HASH\\",\\"type\\":\\"PLAINTEXT\\",\\"value\\":\\"64fea05f86122c343a5af78e6fd5be8dc5fc5eec6a14f18bfe83d914f0a26813\\"}]",
                 "ProjectName": Object {
                   "Ref": "PipelineBuildSynthCdkBuildProject6BEFA8E6",
                 },
@@ -236,7 +236,7 @@ Object {
     }
   },
   \\"artifacts\\": {
-    \\"base-directory\\": \\"cdk.out\\",
+    \\"base-directory\\": \\"packages/cloud/cdk.out\\",
     \\"files\\": \\"**/*\\"
   }
 }",

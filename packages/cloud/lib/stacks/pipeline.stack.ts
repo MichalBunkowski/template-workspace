@@ -31,6 +31,7 @@ export class PipelineStack extends Stack {
           { authentication: githubToken }
         ),
         commands: ['yarn bootstrap', 'yarn synth'],
+        primaryOutputDirectory: 'packages/cloud/cdk.out',
       }),
     });
 

@@ -12,7 +12,8 @@ interface AmplifyConstructProps extends CommonProps {
 }
 
 export class AmplifyConstruct extends Construct {
-  private readonly app: App;
+  public readonly app: App;
+
   constructor(scope: Construct, id: string, props: AmplifyConstructProps) {
     super(scope, id);
 
