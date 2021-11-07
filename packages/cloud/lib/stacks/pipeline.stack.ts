@@ -42,6 +42,10 @@ export class PipelineStack extends Stack {
     this.pipeline.addStage(
       new AppStackStage(this, 'PreProd', {
         ...props,
+        env: {
+          account: '327838578054',
+          region: 'eu-west-1',
+        },
       })
     );
   }
