@@ -39,6 +39,10 @@ export class PipelineStack extends Stack {
       }
     );
 
-    this.pipeline.addStage(new AppStackStage(this, 'PreProd', props));
+    this.pipeline.addStage(
+      new AppStackStage(this, 'PreProd', {
+        ...props,
+      })
+    );
   }
 }
