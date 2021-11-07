@@ -1,4 +1,4 @@
-import { CfnOutput, Construct, Stage, StageProps } from '@aws-cdk/core';
+import { Construct, Stage, StageProps } from '@aws-cdk/core';
 
 import { AppStack } from '../stacks/app.stack';
 import { CommonProps } from '../types/interfaces/common-props';
@@ -9,17 +9,11 @@ type AppStackStageProps = CommonProps & StageProps;
  * Deployable unit of web service app
  */
 export class AppStackStage extends Stage {
-  public readonly urlOutput: CfnOutput;
+  public readonly stack: AppStack;
 
   constructor(scope: Construct, id: string, props: AppStackStageProps) {
     super(scope, id, props);
 
-    new AppStack(this, 'WebService', {
-      ...props,
-      env: {
-        account: '327838578054',
-        region: 'eu-west-1',
-      },
-    });
+    this.stack = new AppStack(this, 'AppStack', props);
   }
 }
