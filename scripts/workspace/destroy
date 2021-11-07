@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "┏━━━ ð DESTROY: cdk destroy ━━━━━━━"
+yarn lerna run destroy --stream --concurrency 1

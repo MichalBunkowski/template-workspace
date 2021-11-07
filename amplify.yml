@@ -7,6 +7,8 @@ applications:
           commands:
             - nvm install --lts
             - npx lerna bootstrap
+            - yarn lint
+            - yarn test
         build:
           commands:
             - npx lerna run build --scope=@orochizu/web --stream
