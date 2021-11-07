@@ -4,12 +4,11 @@ import { Construct, SecretValue, Stack } from '@aws-cdk/core';
 import { CognitoConstruct } from '../features/auth/cognito.construct';
 import { AmplifyConstruct } from '../features/deployment/amplify.construct';
 import { CommonProps } from '../types/interfaces/common-props';
-import generateResourceName from '../utils/generate-resource-name.utils';
 
 type AppStackProps = CommonProps;
 
 export class AppStack extends Stack {
-  constructor(scope: Construct, id: string, props: AppStackProps) {
+  constructor(scope: Construct, id: string, props?: AppStackProps) {
     super(scope, id, props);
 
     // Authentication
@@ -17,29 +16,21 @@ export class AppStack extends Stack {
      *  CognitoConstruct
      *  Purpose: Authentication of users and confirming identity
      * */
-    const cognito = new CognitoConstruct(
-      this,
-      generateResourceName('Auth', props),
-      {
-        ...props,
-      }
-    );
+    const cognito = new CognitoConstruct(this, 'Auth', {
+      ...props,
+    });
 
     // Deployment
     /**
      *  amplifyServiceRole
      *  Purpose: Allows amplify app to create and deploy backend resources
      * */
-    const amplifyServiceRole = new Role(
-      this,
-      generateResourceName('AmplifyBackendDeployment', props),
-      {
-        assumedBy: new ServicePrincipal('amplify.amazonaws.com'),
-        managedPolicies: [
-          ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify'),
-        ],
-      }
-    );
+    const amplifyServiceRole = new Role(this, 'AmplifyBackendDeployment', {
+      assumedBy: new ServicePrincipal('amplify.amazonaws.com'),
+      managedPolicies: [
+        ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess-Amplify'),
+      ],
+    });
 
     /**
      *  githubSecret
@@ -51,7 +42,7 @@ export class AppStack extends Stack {
      *  AmplifyConstruct
      *  Purpose: Deployment of application
      * */
-    new AmplifyConstruct(this, generateResourceName('Amplify', props), {
+    new AmplifyConstruct(this, 'Amplify', {
       serviceRole: amplifyServiceRole,
       githubToken: githubToken,
       cognito,

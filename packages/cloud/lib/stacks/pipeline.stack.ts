@@ -5,16 +5,14 @@ import {
   ShellStep,
 } from '@aws-cdk/pipelines';
 
-import { AppStackStage } from '../stages/app-stack.stage';
 import { CommonProps } from '../types/interfaces/common-props';
-import generateResourceName from '../utils/generate-resource-name.utils';
 
 type PipelineProps = CommonProps;
 
 export class PipelineStack extends Stack {
   public readonly pipeline: CodePipeline;
 
-  constructor(scope: Construct, id: string, props: PipelineProps) {
+  constructor(scope: Construct, id: string, props?: PipelineProps) {
     super(scope, id);
 
     /**
@@ -23,22 +21,16 @@ export class PipelineStack extends Stack {
      * */
     const githubToken = SecretValue.secretsManager('github_token');
 
-    this.pipeline = new CodePipeline(
-      this,
-      generateResourceName('Pipeline', props),
-      {
-        pipelineName: 'CdkAppPipeline',
-        synth: new ShellStep('Synth', {
-          input: CodePipelineSource.gitHub(
-            'MichalBunkowski/template-workspace',
-            'main',
-            { authentication: githubToken }
-          ),
-          commands: ['yarn bootstrap', 'yarn synth'],
-        }),
-      }
-    );
-
-    this.pipeline.addStage(new AppStackStage(this, 'PreProd', props));
+    this.pipeline = new CodePipeline(this, 'Pipeline', {
+      pipelineName: 'CdkAppPipeline',
+      synth: new ShellStep('Synth', {
+        input: CodePipelineSource.gitHub(
+          'MichalBunkowski/template-workspace',
+          'main',
+          { authentication: githubToken }
+        ),
+        commands: ['yarn bootstrap', 'yarn synth'],
+      }),
+    });
   }
 }

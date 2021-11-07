@@ -3,7 +3,6 @@ import { Role } from '@aws-cdk/aws-iam';
 import { Construct, SecretValue } from '@aws-cdk/core';
 
 import { CommonProps } from '../../types/interfaces/common-props';
-import generateResourceName from '../../utils/generate-resource-name.utils';
 import { CognitoConstruct } from '../auth/cognito.construct';
 
 interface AmplifyConstructProps extends CommonProps {
@@ -19,7 +18,7 @@ export class AmplifyConstruct extends Construct {
 
     const { serviceRole, githubToken, cognito } = props;
 
-    this.app = new App(this, generateResourceName('AmplifyApp', props), {
+    this.app = new App(this, 'AmplifyApp', {
       role: serviceRole,
       sourceCodeProvider: new GitHubSourceCodeProvider({
         owner: 'MichalBunkowski',

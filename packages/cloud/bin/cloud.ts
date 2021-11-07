@@ -15,7 +15,6 @@ const env = {
 };
 
 new PipelineStack(app, 'PipelineStack', {
-  envName: EnvironmentName.Develop,
   env,
 });
 

@@ -11,7 +11,6 @@ import {
 import { Construct } from '@aws-cdk/core';
 
 import { CommonProps } from '../../types/interfaces/common-props';
-import generateResourceName from '../../utils/generate-resource-name.utils';
 
 interface CognitoRoleProps extends CommonProps {
   identityPool: CfnIdentityPool;
@@ -25,7 +24,7 @@ export class CognitoRoleConstruct extends Construct {
 
     const { identityPool } = props;
 
-    this.role = new Role(this, generateResourceName('AuthRole', props), {
+    this.role = new Role(this, 'AuthRole', {
       assumedBy: new FederatedPrincipal(
         'cognito-identity.amazonaws.com',
         {
@@ -52,13 +51,9 @@ export class CognitoRoleConstruct extends Construct {
       })
     );
 
-    new CfnIdentityPoolRoleAttachment(
-      this,
-      generateResourceName('AuthIdentityPoolAttachment', props),
-      {
-        identityPoolId: identityPool.ref,
-        roles: { authenticated: this.role.roleArn },
-      }
-    );
+    new CfnIdentityPoolRoleAttachment(this, 'AuthIdentityPoolAttachment', {
+      identityPoolId: identityPool.ref,
+      roles: { authenticated: this.role.roleArn },
+    });
   }
 }
