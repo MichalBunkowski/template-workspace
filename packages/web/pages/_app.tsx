@@ -1,11 +1,13 @@
 import * as React from 'react';
 
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
-import { Amplify } from 'aws-amplify';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+
+import { Amplify } from 'aws-amplify';
 
 import environment from '../src/environment';
 import createEmotionCache from '../src/material/createEmotionCache';

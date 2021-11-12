@@ -22,18 +22,18 @@ export class PipelineStack extends Stack {
      * */
     const githubToken = SecretValue.secretsManager('github_token');
 
+    const githubRepository = CodePipelineSource.gitHub(
+      'MichalBunkowski/template-workspace',
+      'main',
+      { authentication: githubToken }
+    );
+
     /**
      *  amplifyTriggerMain
      *  Purpose: Trigger amplify build
      * */
     const amplifyTriggerMain = SecretValue.secretsManager(
       'amplify_trigger_main'
-    );
-
-    const githubRepository = CodePipelineSource.gitHub(
-      'MichalBunkowski/template-workspace',
-      'main',
-      { authentication: githubToken }
     );
 
     this.pipeline = new CodePipeline(this, 'Pipeline', {

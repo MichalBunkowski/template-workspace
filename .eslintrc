@@ -24,12 +24,26 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "simple-import-sort/imports": [
       "error",
-      { "groups": [["^react", "^aws-cdk"], ["^@?\\w"], ["^\\."]] }
+      {
+        "groups": [
+          ["^react", "^aws-cdk"],
+          ["^next"],
+          ["^@mui", "^@emotion"],
+          ["^@?\\w"],
+          ["^\\."]
+        ]
+      }
     ],
     "simple-import-sort/exports": "error",
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-duplicates": "error"
   },
-  "ignorePatterns": [".eslintrc", "*.config.js", "*.setup.js", "__mocks__", "scripts"]
+  "ignorePatterns": [
+    ".eslintrc",
+    "*.config.js",
+    "*.setup.js",
+    "__mocks__",
+    "scripts"
+  ]
 }

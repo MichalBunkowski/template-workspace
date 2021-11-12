@@ -1,5 +1,6 @@
-import { Container, Typography } from '@mui/material';
 import { NextPage } from 'next';
+
+import { Container, Typography } from '@mui/material';
 
 export const Index: NextPage = () => {
   return (
