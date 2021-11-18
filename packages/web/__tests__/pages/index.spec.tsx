@@ -8,7 +8,7 @@ describe('Index', () => {
   it('renders a header', () => {
     render(<Index />);
 
-    const header = screen.getByText(/index page/i);
+    const header = screen.getByText(/Hello/i);
 
     expect(header).toBeInTheDocument();
   });
